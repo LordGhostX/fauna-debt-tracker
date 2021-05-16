@@ -52,6 +52,7 @@ def add_loan():
                 "data": {
                     "name": name,
                     "amount": float(amount),
+                    "pending": True,
                     "date_created": datetime.strptime(date, "%Y-%m-%d").astimezone(tz=tz.tzlocal())
                 }
             }
@@ -64,6 +65,33 @@ def add_loan():
 
 @app.route("/loans/edit/", methods=["POST"])
 def edit_loan():
+    action = request.form.get("action")
+    amount = request.form.get("amount")
+    loan_id = request.form.get("loanID")
+
+    loan_data = client.query(
+        q.get(
+            q.ref(q.collection("loans"), int(loan_id))
+        )
+    )
+
+    old_amount = loan_data["data"]["amount"]
+    if action == "Borrow More":
+        new_amount = old_amount + float(amount)
+    elif action == "Repay Loan":
+        new_amount = old_amount - float(amount)
+
+    client.query(
+        q.update(
+            q.ref(q.collection("loans"), int(loan_id)), {
+                "data": {
+                    "amount": new_amount
+                }
+            }
+        )
+    )
+
+    flash("You have successfully updated loan information!", "success")
     return redirect(url_for("loans"))
 
 

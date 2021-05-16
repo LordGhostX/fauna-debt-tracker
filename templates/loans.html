@@ -43,7 +43,7 @@
             <td>${{ "{:,.2f}".format(loan.data.amount) }}</td>
             <td>{{ loan.data.date_created|faunatimefilter }}</td>
             <td>
-              <button data-toggle="modal" data-target="#editLoanModal" class="btn btn-primary" onclick="editLoan('loan-{{ loan.ref.id() }}')">Edit Loan</button>
+              <button data-toggle="modal" data-target="#editLoanModal" class="btn btn-primary" onclick="editLoan('{{ loan.ref.id() }}')">Edit Loan</button>
             </td>
             <td>
               <a href="#" class="btn btn-primary">Clear Loan</a>
@@ -110,7 +110,7 @@
               <label for="action">Action</label>
               <select class="form-control" id="action" name="action">
                 <option>Borrow More</option>
-                <option>Pay Part</option>
+                <option>Repay Loan</option>
               </select>
             </div>
 
