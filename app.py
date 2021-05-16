@@ -95,5 +95,17 @@ def update_loan():
     return redirect(url_for("loans"))
 
 
+@app.route("/loans/clear/<int:loan_id>/")
+def clear_loan(loan_id):
+    client.query(
+        q.delete(
+            q.ref(q.collection("loans"), loan_id)
+        )
+    )
+
+    flash("You have successfully cleared loan information!", "success")
+    return redirect(url_for("loans"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)

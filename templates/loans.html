@@ -46,7 +46,7 @@
               <button data-toggle="modal" data-target="#updateLoanModal" class="btn btn-primary" onclick="updateLoan('{{ loan.ref.id() }}')">Update Loan</button>
             </td>
             <td>
-              <a href="#" class="btn btn-danger">Clear Loan</a>
+              <a href="{{ url_for('clear_loan', loan_id=loan.ref.id()) }}" class="btn btn-danger">Clear Loan</a>
             </td>
           </tr>
           {% endfor %}
