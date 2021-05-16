@@ -37,17 +37,19 @@
           </tr>
         </thead>
         <tbody>
+          {% for loan in loans_data %}
           <tr>
-            <td id="loan-1">LordGhostX</td>
-            <td>$10,000</td>
-            <td>Sat May 15 12:21 AM</td>
+            <td id="loan-{{ loan.ref.id() }}">{{ loan.data.name }}</td>
+            <td>${{ "{:,.2f}".format(loan.data.amount) }}</td>
+            <td>{{ loan.data.date_created|faunatimefilter }}</td>
             <td>
-              <button data-toggle="modal" data-target="#editLoanModal" class="btn btn-primary" onclick="editLoan('loan-1')">Edit Loan</button>
+              <button data-toggle="modal" data-target="#editLoanModal" class="btn btn-primary" onclick="editLoan('loan-{{ loan.ref.id() }}')">Edit Loan</button>
             </td>
             <td>
               <a href="#" class="btn btn-primary">Clear Loan</a>
             </td>
           </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
