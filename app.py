@@ -63,8 +63,8 @@ def add_loan():
     return redirect(url_for("loans"))
 
 
-@app.route("/loans/edit/", methods=["POST"])
-def edit_loan():
+@app.route("/loans/update/", methods=["POST"])
+def update_loan():
     action = request.form.get("action")
     amount = request.form.get("amount")
     loan_id = request.form.get("loanID")

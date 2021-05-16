@@ -32,7 +32,7 @@
             <th>Name</th>
             <th>Amount</th>
             <th>Date</th>
-            <th>Edit Loan</th>
+            <th>Update Loan</th>
             <th>Clear Loan</th>
           </tr>
         </thead>
@@ -43,10 +43,10 @@
             <td>${{ "{:,.2f}".format(loan.data.amount) }}</td>
             <td>{{ loan.data.date_created|faunatimefilter }}</td>
             <td>
-              <button data-toggle="modal" data-target="#editLoanModal" class="btn btn-primary" onclick="editLoan('{{ loan.ref.id() }}')">Edit Loan</button>
+              <button data-toggle="modal" data-target="#updateLoanModal" class="btn btn-primary" onclick="updateLoan('{{ loan.ref.id() }}')">Update Loan</button>
             </td>
             <td>
-              <a href="#" class="btn btn-primary">Clear Loan</a>
+              <a href="#" class="btn btn-danger">Clear Loan</a>
             </td>
           </tr>
           {% endfor %}
@@ -93,18 +93,18 @@
     </div>
   </div>
 
-  <!-- Edit Loan Modal -->
-  <div class="modal fade" id="editLoanModal" tabindex="-1" role="dialog" aria-labelledby="editLoanModalLabel" aria-hidden="true">
+  <!-- Update Loan Modal -->
+  <div class="modal fade" id="updateLoanModal" tabindex="-1" role="dialog" aria-labelledby="updateLoanModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editLoanModalLabel"></h5>
+          <h5 class="modal-title" id="updateLoanModalLabel"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
-        <form method="POST" action="{{ url_for('edit_loan') }}">
+        <form method="POST" action="{{ url_for('update_loan') }}">
           <div class="modal-body">
             <div class="form-group">
               <label for="action">Action</label>
@@ -122,8 +122,8 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <input type="hidden" id="editLoanID" name="loanID">
-            <button class="btn btn-primary" type="submit">Edit Loan</button>
+            <input type="hidden" id="updateLoanID" name="loanID">
+            <button class="btn btn-primary" type="submit">Update Loan</button>
           </div>
         </form>
       </div>
