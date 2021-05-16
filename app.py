@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil import tz
 from flask import *
 from flask_bootstrap import Bootstrap
 from faunadb import query as q
@@ -7,11 +8,12 @@ from faunadb.client import FaunaClient
 
 app = Flask(__name__)
 Bootstrap(app)
+app.config["SECRET_KEY"] = "SECRET_KEY"
 client = FaunaClient(secret="FAUNA_SECRET_KEY")
 
 
 def faunatimefilter(faunatime):
-    return faunatime.to_datetime().strftime("%c")
+    return faunatime.to_datetime().strftime("%A, %B %e, %Y")
 
 
 app.jinja_env.filters["faunatimefilter"] = faunatimefilter
@@ -40,6 +42,23 @@ def loans():
 
 @app.route("/loans/add/", methods=["POST"])
 def add_loan():
+    name = request.form.get("name")
+    amount = request.form.get("amount")
+    date = request.form.get("date")
+
+    loan_data = client.query(
+        q.create(
+            q.collection("loans"), {
+                "data": {
+                    "name": name,
+                    "amount": float(amount),
+                    "date_created": datetime.strptime(date, "%Y-%m-%d").astimezone(tz=tz.tzlocal())
+                }
+            }
+        )
+    )
+
+    flash("You have successfully added loan information!", "success")
     return redirect(url_for("loans"))
 
 
